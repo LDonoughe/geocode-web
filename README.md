@@ -1,24 +1,29 @@
-# README
+# Geocode Web
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
+Api shell for an external geocoding service to turn strings into geocodes
 
-Things you may want to cover:
+## Setup
+install asdf plugins for postgres, nodejs, ruby
 
-* Ruby version
+install yarn
 
-* System dependencies
+`asdf install`
 
-* Configuration
+```
+createdb `whoami`
+createdb geocode_web_development
+createdb geocode_web_test
+```
 
-* Database creation
+`bundle`
+`rails db:migrate`
 
-* Database initialization
+to run specs:
+`rails test`
 
-* How to run the test suite
+to use server:
+`rails server`
 
-* Services (job queues, cache servers, search engines, etc.)
+navigate browser to localhost:3000
 
-* Deployment instructions
-
-* ...
