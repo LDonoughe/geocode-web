@@ -19,6 +19,10 @@ createdb geocode_web_test
 `bundle`
 `rails db:migrate`
 
+`touch .env.local`
+`touch .env.test.local`
+add `LOCATIONIQ_KEY=` then your key to `.env.local` and `.env.test.local`
+
 to run specs:
 `rails test`
 

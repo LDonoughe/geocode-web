@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
+require 'dotenv'
 require_relative '../config/environment'
 require 'rails/test_help'
+
+Dotenv.load('.env.test.local')
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
