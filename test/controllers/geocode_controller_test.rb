@@ -13,8 +13,28 @@ class GeocodeControllerTest < ActionDispatch::IntegrationTest
     assert_equal json['coordinates'], ['40.7484284', '-73.9856546198733']
   end
 
+  test 'gets result for given example' do
+    sleep 2 # avoid 429s
+    get '/?query=Checkpoint%20Charlie'
+    assert_response 200
+    json = JSON.parse(response.body)
+    assert_equal json['status'].to_i, 200
+    # These vary slightly from the pdf but I'm trusting LocationIQ here
+    assert_equal json['coordinates'], ['52.5075075', '13.3903737']
+  end
+
   test 'returns 400 without a query' do
+    sleep 2 # avoid 429s
     get '/'
+    assert_response 400
+    json = JSON.parse(response.body)
+    assert_equal json['status'].to_i, 400
+    assert_equal json['message'], 'no query provided'
+  end
+
+  test 'returns 400 with empty query' do
+    sleep 2 # avoid 429s
+    get '/?query='
     assert_response 400
     json = JSON.parse(response.body)
     assert_equal json['status'].to_i, 400
