@@ -9,9 +9,11 @@ class GeocodeController < ApplicationController
     if query.present?
       response = Geocode.forward(query)
       if response
-        render json: { status: 200,
-                       coordinates: response,
-                       permanent_api_endpoint_location: 'v1/geocode/forward' }
+        # binding.pry
+        response.delete('license')
+        response['status'] = 200
+        response['permanent_api_endpoint_location'] = 'v1/geocode/forward'
+        render json: response
       else
         # Error handling should go in /lib
         render json: { status: 500,

@@ -28,6 +28,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # gem 'rack-cors'
 
 gem 'http', '~> 4.3'
+gem 'rswag-api'
+gem 'rswag-ui'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -35,6 +37,8 @@ group :development, :test do
   gem 'extra_print'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'
+  gem 'rspec-rails'
+  gem 'rswag-specs'
 end
 
 group :development do
