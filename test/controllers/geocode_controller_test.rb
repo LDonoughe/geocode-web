@@ -10,7 +10,8 @@ class GeocodeControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     json = JSON.parse(response.body)
     assert_equal json['status'].to_i, 200
-    assert_equal json['coordinates'], ['40.7484284', '-73.9856546198733']
+    assert_equal json['lat'], '40.7484284'
+    assert_equal json['lon'], '-73.9856546198733'
   end
 
   test 'gets result for given example' do
@@ -20,7 +21,8 @@ class GeocodeControllerTest < ActionDispatch::IntegrationTest
     json = JSON.parse(response.body)
     assert_equal json['status'].to_i, 200
     # These vary slightly from the pdf but I'm trusting LocationIQ here
-    assert_equal json['coordinates'], ['52.5075075', '13.3903737']
+    assert_equal json['lat'], '52.5075075'
+    assert_equal json['lon'], '13.3903737'
   end
 
   test 'returns 400 without a query' do

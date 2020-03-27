@@ -1,0 +1,43 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/v1/geocode/forward":
+    get:
+      summary: Gets lat and lon for location string
+      tags:
+      - Geocoding
+      produces:
+      - application/json
+      parameters:
+      - name: query
+        in: query
+        type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            properties:
+              lat:
+                type: string
+              lon:
+                type: string
+              place_id:
+                type: string
+              osm_type:
+                type: string
+              osm_id:
+                type: string
+              boundingbox:
+                type: array
+                items: string
+              display_name:
+                type: string
+            required:
+            - lat
+            - lon
+        '400':
+          description: must provide a query

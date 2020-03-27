@@ -10,7 +10,7 @@ describe 'Geocode Api' do
       produces 'application/json'
       parameter name: :query, in: :query, type: :string
 
-      { "place_id": '91421092', "osm_type": 'way', "osm_id": '34633854', "boundingbox": ['40.7479226', '40.7489422', '-73.9864855', '-73.9848259'], "lat": '40.7484284', "lon": '-73.9856546198733', "display_name": 'Empire State Building, 350, 5th Avenue, Korea Town, Manhattan, New York, New York County, New York, 10001, USA', "class": 'tourism', "type": 'attraction', "importance": 0.85158684668746, "icon": 'https://locationiq.org/static/images/mapicons/poi_point_of_interest.p.20.png', "status": 200, "permanent_api_endpoint_location": 'v1/geocode/forward' }
+      # { "place_id": '91421092', "osm_type": 'way', "osm_id": '34633854', "boundingbox": ['40.7479226', '40.7489422', '-73.9864855', '-73.9848259'], "lat": '40.7484284', "lon": '-73.9856546198733', "display_name": 'Empire State Building, 350, 5th Avenue, Korea Town, Manhattan, New York, New York County, New York, 10001, USA', "class": 'tourism', "type": 'attraction', "importance": 0.85158684668746, "icon": 'https://locationiq.org/static/images/mapicons/poi_point_of_interest.p.20.png', "status": 200, "permanent_api_endpoint_location": 'v1/geocode/forward' }
 
       response '200', 'location found' do
         schema type: :object,
@@ -37,6 +37,12 @@ describe 'Geocode Api' do
 
       # I don't care what people ask for, I'm giving them JSON
       response '200', 'unsupported accept header' do
+        let(:Accept) { 'application/foo' }
+        run_test!
+      end
+
+      # so swagger shows a reasonable message
+      response '200', 'success' do
         let(:Accept) { 'application/foo' }
         run_test!
       end
