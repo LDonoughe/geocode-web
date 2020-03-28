@@ -3,19 +3,21 @@
 require_relative '../../lib/locationiq/geocode'
 
 class GeocodeController < ApplicationController
+  include ActionController::HttpAuthentication::Basic::ControllerMethods
+  http_basic_authenticate_with name: ENV['BASIC_AUTH_NAME'], password: ENV['BASIC_AUTH_PASSWORD']
+
   # could be more RESTful?
   def index
     query = filtered_params['query']
     if query.present?
       response = Geocode.forward(query)
       if response
-        # binding.pry
         response.delete('license')
         response['status'] = 200
         response['permanent_api_endpoint_location'] = 'v1/geocode/forward'
         render json: response
       else
-        # Error handling should go in /lib
+        # Error messages are parsed from the response object in lib/locationiq/geocode.rb
         render json: { status: 500,
                        message: response.message,
                        permanent_api_endpoint_location: 'v1/geocode/forward' },
