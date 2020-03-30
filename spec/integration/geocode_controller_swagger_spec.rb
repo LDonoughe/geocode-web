@@ -55,6 +55,8 @@ describe 'Geocode Api' do
       end
 
       # I don't care what people ask for, I'm giving them JSON
+      # We can utilize rails respond_to in the future
+      #   if we want to be better web citizens
       response '200', 'unsupported accept header' do
         let(:Accept) { 'application/foo' }
         run_test!

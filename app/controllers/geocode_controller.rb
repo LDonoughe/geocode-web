@@ -6,7 +6,6 @@ class GeocodeController < ApplicationController
   include ActionController::HttpAuthentication::Basic::ControllerMethods
   http_basic_authenticate_with name: ENV['BASIC_AUTH_NAME'], password: ENV['BASIC_AUTH_PASSWORD']
 
-  # could be more RESTful?
   def index
     query = filtered_params['query']
     if query.present?

@@ -58,7 +58,6 @@ GEM
       zeitwerk (~> 2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    awesome_print (1.8.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
     bootsnap (1.4.6)
@@ -79,8 +78,6 @@ GEM
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
     erubi (1.9.0)
-    extra_print (2.0.0)
-      awesome_print (~> 1.8, >= 1.8.0)
     ffi (1.12.2)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
@@ -229,7 +226,6 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.2)
   dotenv-rails
-  extra_print
   http (~> 4.3)
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)

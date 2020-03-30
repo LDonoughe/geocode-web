@@ -32,5 +32,7 @@ RSpec.describe Geocode do
       expect(response[:status]).to eq 429
       expect(response[:message]).to eq 'Too Many Requests'
     end
+
+    # FIXME: Should test request timeouts directly here too
   end
 end

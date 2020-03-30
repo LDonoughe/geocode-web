@@ -32,9 +32,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'dotenv-rails'
-  gem 'extra_print'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'
   gem 'rspec-rails'

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Abstracting the locationiq logic here.
+# If we decide to switch to a different provider, we can implement the same
+#   method with that provider and keep our controller the same.
 class Geocode
   def self.forward(query)
     url = "https://us1.locationiq.com/v1/search.php?key=#{ENV['LOCATIONIQ_KEY']}&q=#{query}&format=json"
