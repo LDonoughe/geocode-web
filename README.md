@@ -23,8 +23,7 @@ createdb geocode_web_test
 `touch .env.test.local`
 add `LOCATIONIQ_KEY=` then your key to `.env.local` and `.env.test.local`
 
-Do this again for `BASIC_AUTH_NAME=` and `BASIC_AUTH_PASSWORD=`. 
- NOT TRUE -> You'll need them set to `name` and `password` respectively in `env.test.local` for integration specs to work.
+Do this again for `BASIC_AUTH_NAME=` and `BASIC_AUTH_PASSWORD=`.
 
 to run specs:
 `rails test`

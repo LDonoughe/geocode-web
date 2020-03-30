@@ -11,15 +11,16 @@ class GeocodeController < ApplicationController
     query = filtered_params['query']
     if query.present?
       response = Geocode.forward(query)
-      if response
+      if response && !response[:message]
         response.delete('license')
         response['status'] = 200
         response['permanent_api_endpoint_location'] = 'v1/geocode/forward'
         render json: response
       else
         # Error messages are parsed from the response object in lib/locationiq/geocode.rb
+        message = get_message(response)
         render json: { status: 500,
-                       message: response.message,
+                       message: message,
                        permanent_api_endpoint_location: 'v1/geocode/forward' },
                status: 500
       end
@@ -32,6 +33,22 @@ class GeocodeController < ApplicationController
   end
 
   private
+
+  def get_message(response)
+    if response.respond_to? :message
+      response.message
+    elsif response[:message]
+      response[:message]
+    elsif response[:error]
+      response[:error]
+    elsif response.respond_to? :error
+      response.error
+    elsif response.respond_to? :body
+      response.body
+    else
+      'unknown error'
+    end
+  end
 
   def filtered_params
     params.permit(:query)

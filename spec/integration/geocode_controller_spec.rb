@@ -3,13 +3,14 @@
 require 'spec_helper'
 require 'rails_helper'
 require_relative '../../app/controllers/geocode_controller'
+require_relative '../lib/locationiq/webmocks'
 
 describe GeocodeController do
   describe '#index' do
-    let(:credentials) { ActionController::HttpAuthentication::Basic.encode_credentials 'name', 'password' }
+    let(:credentials) { ActionController::HttpAuthentication::Basic.encode_credentials ENV['BASIC_AUTH_NAME'], ENV['BASIC_AUTH_PASSWORD'] }
 
     before do
-      sleep 1 # avoid 429s until we use webmock instead
+      Webmocks.geocode_forward
     end
 
     it 'gets result for query' do
@@ -46,7 +47,31 @@ describe GeocodeController do
       expect(json['status'].to_i).to eq 400
       expect(json['message']).to eq 'no query provided'
     end
-  end
 
-  # TODO: tests for 500s, other 400s, and different 200 queries. Use Webmock
+    context 'when authorization is invalid' do
+      let(:credentials) { ActionController::HttpAuthentication::Basic.encode_credentials 'admin', 'admin' }
+
+      it 'returns 401 without valid authorization' do
+        get '/?query=', headers: { 'HTTP_AUTHORIZATION': credentials }
+        assert_response 401
+        expect(response.body =~ /HTTP Basic: Access denied./).to_not eq false
+      end
+    end
+
+    it 'returns 500 when 500' do
+      get '/?query=500', headers: { 'HTTP_AUTHORIZATION': credentials }
+      assert_response 500
+      json = JSON.parse(response.body)
+      expect(json['status'].to_i).to eq 500
+      expect(json['message']).to eq 'Internal Server Error'
+    end
+
+    it 'returns 500 when we can not parse response' do
+      get '/?query=no%20parse', headers: { 'HTTP_AUTHORIZATION': credentials }
+      assert_response 500
+      json = JSON.parse(response.body)
+      expect(json['status'].to_i).to eq 500
+      expect(json['message']).to eq 'Could not parse response'
+    end
+  end
 end

@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
 require 'swagger_helper'
+require_relative '../lib/locationiq/webmocks'
 
 describe 'Geocode Api' do
   path '/v1/geocode/forward' do
     before do
-      sleep 1
+      Webmocks.geocode_forward
     end
 
+    # This currently generates invalid swagger config,
+    # I'm having trouble debugging rswag so currently cleaning it manually
     get 'Gets lat and lon for location string' do
       let(:query) { 'Empire State Building' }
-      let(:Authorization) { "Basic #{::Base64.strict_encode64('name:password')}" }
+      let(:Authorization) { "Basic #{::Base64.strict_encode64("#{ENV['BASIC_AUTH_NAME']}:#{ENV['BASIC_AUTH_PASSWORD']}")}" }
 
-      security [ basic: [] ]
+      security [basic: []]
       tags 'Geocoding'
       produces 'application/json'
       parameter name: :query, in: :query, type: :string, required: true
@@ -28,11 +31,11 @@ describe 'Geocode Api' do
                  osm_id: { type: :string }, # could be int
                  boundingbox: { type: :array, items: :string },
                  display_name: { type: :string },
-                 class: { type: :string }, 
-                 type: { type: :string }, 
-                 importance: {type: :number }, 
-                 icon: { type: :string }, 
-                 status: { type: :integer }, 
+                 class: { type: :string },
+                 type: { type: :string },
+                 importance: { type: :number },
+                 icon: { type: :string },
+                 status: { type: :integer },
                  permanent_api_endpoint_location: { type: :string }
                },
                required: %w[lat lon]
