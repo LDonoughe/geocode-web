@@ -31,6 +31,8 @@ class GeocodeController < ApplicationController
     end
   end
 
+  private
+
   def filtered_params
     params.permit(:query)
   end

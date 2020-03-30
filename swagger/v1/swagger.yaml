@@ -7,37 +7,54 @@ paths:
   "/v1/geocode/forward":
     get:
       summary: Gets lat and lon for location string
+      security:
+      - basic: []
       tags:
       - Geocoding
-      produces:
-      - application/json
       parameters:
       - name: query
         in: query
-        type: string
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: success
-          schema:
-            type: object
-            properties:
-              lat:
-                type: string
-              lon:
-                type: string
-              place_id:
-                type: string
-              osm_type:
-                type: string
-              osm_id:
-                type: string
-              boundingbox:
-                type: array
-                items: string
-              display_name:
-                type: string
-            required:
-            - lat
-            - lon
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lat:
+                    type: string
+                  lon:
+                    type: string
+                  place_id:
+                    type: string
+                  osm_type:
+                    type: string
+                  osm_id:
+                    type: string
+                  display_name:
+                    type: string
+                  class:
+                    type: string
+                  type:
+                    type: string
+                  importance:
+                    type: number
+                  icon:
+                    type: string
+                  status:
+                    type: integer
+                  permanent_api_endpoint_location:
+                    type: string
         '400':
           description: must provide a query
+        '401':
+          description: must pass basic auth

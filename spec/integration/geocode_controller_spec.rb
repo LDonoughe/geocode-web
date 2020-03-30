@@ -9,7 +9,7 @@ describe GeocodeController do
     let(:credentials) { ActionController::HttpAuthentication::Basic.encode_credentials 'name', 'password' }
 
     before do
-      sleep 1 # avoid 429s
+      sleep 1 # avoid 429s until we use webmock instead
     end
 
     it 'gets result for query' do
