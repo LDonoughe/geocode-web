@@ -14,7 +14,9 @@ class Geocode
       return { status: status, message: e.message }
     end
     begin
-      body = JSON.parse(response.to_s)[0]
+      body = JSON.parse(response.body.to_s)
+      return { status: 404, message: 'No Results Found' } if body.is_a?(Hash) && body['error']
+      body = body[0]
     rescue JSON::ParserError
       return { status: 500, message: 'Could not parse response' }
     end

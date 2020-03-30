@@ -18,10 +18,11 @@ class GeocodeController < ApplicationController
       else
         # Error messages are parsed from the response object in lib/locationiq/geocode.rb
         message = get_message(response)
-        render json: { status: 500,
+        status = response[:status] || 500
+        render json: { status: status,
                        message: message,
                        permanent_api_endpoint_location: 'v1/geocode/forward' },
-               status: 500
+               status: status
       end
     else
       render json: { status: 400,

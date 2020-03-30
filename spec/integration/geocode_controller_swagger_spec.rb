@@ -54,6 +54,11 @@ describe 'Geocode Api' do
         run_test!
       end
 
+      response '404', 'can not find nonsense queries' do
+        let(:query) { 'kajhfkajshdfkadshf' }
+        run_test!
+      end
+
       # I don't care what people ask for, I'm giving them JSON
       # We can utilize rails respond_to in the future
       #   if we want to be better web citizens

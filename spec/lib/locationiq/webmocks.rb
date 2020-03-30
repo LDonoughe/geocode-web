@@ -14,5 +14,7 @@ class Webmocks
            .to_return(status: 500, body: '[{"error": "error"}]', headers: {})
     WebMock.stub_request(:get, "https://us1.locationiq.com/v1/search.php?format=json&key=#{ENV['LOCATIONIQ_KEY']}&q=429")
            .to_return(status: 429, exception: 'Too Many Requests', headers: {})
+    WebMock.stub_request(:get, "https://us1.locationiq.com/v1/search.php?format=json&key=#{ENV['LOCATIONIQ_KEY']}&q=kajhfkajshdfkadshf")
+           .to_return(status: 500, body: '{"error": "Unable to geocode"}', headers: {})
   end
 end

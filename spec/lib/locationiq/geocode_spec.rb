@@ -33,6 +33,11 @@ RSpec.describe Geocode do
       expect(response[:message]).to eq 'Too Many Requests'
     end
 
+    it 'handles 404s' do
+      response = Geocode.forward('kajhfkajshdfkadshf')
+      expect(response[:status]).to eq 404
+      expect(response[:message]).to eq 'No Results Found'
+    end
     # FIXME: Should test request timeouts directly here too
   end
 end

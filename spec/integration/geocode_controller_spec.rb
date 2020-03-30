@@ -48,6 +48,14 @@ describe GeocodeController do
       expect(json['message']).to eq 'no query provided'
     end
 
+    it 'returns 404 with nonsense query' do
+      get '/?query=kajhfkajshdfkadshf', headers: { 'HTTP_AUTHORIZATION': credentials }
+      assert_response 404
+      json = JSON.parse(response.body)
+      expect(json['status'].to_i).to eq 404
+      expect(json['message']).to eq 'No Results Found'
+    end
+
     context 'when authorization is invalid' do
       let(:credentials) { ActionController::HttpAuthentication::Basic.encode_credentials 'admin', 'admin' }
 
