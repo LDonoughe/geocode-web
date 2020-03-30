@@ -32,5 +32,6 @@ to use server:
 `rails server`
 
 navigate browser to localhost:3000/api-docs for documentation
+
 or localhost:3000/?query=Checkpoint%20Charlie to get geocoded locations for queries
 
