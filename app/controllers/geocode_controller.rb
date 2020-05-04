@@ -37,16 +37,16 @@ class GeocodeController < ApplicationController
     message = get_message(response)
     status = response[:status] || 500
     render json: { status: status,
-                  message: message,
-                  permanent_api_endpoint_location: 'v1/geocode/forward' },
-                  status: status
+                   message: message,
+                   permanent_api_endpoint_location: 'v1/geocode/forward' },
+           status: status
   end
 
   def render_no_query_error
     render json: { status: 400,
-      message: 'no query provided',
-      permanent_api_endpoint_location: 'v1/geocode/forward' },
-      status: 400
+                   message: 'no query provided',
+                   permanent_api_endpoint_location: 'v1/geocode/forward' },
+           status: 400
   end
 
   def get_message(response)

@@ -5,25 +5,28 @@
 #   method with that provider and keep our controller the same.
 class Geocode
   def self.forward(query)
-    url = "https://us1.locationiq.com/v1/search.php?key=#{ENV['LOCATIONIQ_KEY']}&q=#{query}&format=json"
-    # these try blocks could be combined but the errors arise from different lines of code
-    begin
-      response = HTTP.get(url)
-    rescue StandardError => e
-      status = e.message == 'Too Many Requests' ? 429 : 500
-      return { status: status, message: e.message }
+    response = HTTP.get(url(query))
+    body = JSON.parse(response.body.to_s)
+    if body.is_a?(Hash) && body['error']
+      return { status: 404, message: 'No Results Found' }
     end
-    begin
-      body = JSON.parse(response.body.to_s)
-      return { status: 404, message: 'No Results Found' } if body.is_a?(Hash) && body['error']
-      body = body[0]
-    rescue JSON::ParserError
-      return { status: 500, message: 'Could not parse response' }
-    end
+
+    body = body[0]
     if body && body['lat']
       body
     else
       { status: response.status, message: response.reason }
     end
+  rescue JSON::ParserError
+    { status: 500, message: 'Could not parse response' }
+  rescue StandardError => e
+    status = e.message == 'Too Many Requests' ? 429 : 500
+    { status: status, message: e.message }
+  end
+
+  private
+
+  def self.url(query)
+    "https://us1.locationiq.com/v1/search.php?key=#{ENV['LOCATIONIQ_KEY']}&q=#{query}&format=json"
   end
 end
